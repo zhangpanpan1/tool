@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
+
 @Controller
 @RequestMapping("/app")
 public class MessageValidateAction extends AbstractAction {
@@ -23,12 +25,25 @@ public class MessageValidateAction extends AbstractAction {
 		return messageValidateService;
 	}
 	
-	public void setMessageValidateService(
-			MessageValidateService messageValidateService) {
+	public void setMessageValidateService( MessageValidateService messageValidateService) {
 		this.messageValidateService = messageValidateService;
 	}
- 
-	
+
+	@RequestMapping("index.action")
+	public ModelAndView validate(HttpServletRequest request, String type){
+		logger.info("request:" + request.getRequestURI());
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.addObject("rownum", 10);
+		if (type.equals("1")) {
+			modelAndView.addObject("action", "app/selectMessageValidateCode.action");
+		}
+		else {
+			modelAndView.addObject("action", "app/selectFactMessageValidateCode.action");
+		}
+		modelAndView.setViewName("messagevalidatecode");
+		return modelAndView;
+	}
+
 	@RequestMapping("/selectMessageValidateCode.action")
 	public ModelAndView selectMessageValidateCode(@RequestParam(value="rownum",required=false,defaultValue="") String rownum){
 		logger.info("加载短信验证码请求处理，该请求来自于：[" + request.getRemoteAddr() + ";" + request.getRemoteHost() + "]/user=" + request.getRemoteUser());

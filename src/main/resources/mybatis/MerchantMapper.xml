@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.cnepay.mobilepay.tool.dao.mapper.MerchantMapper">
+
+    <select id="findMerchantById" resultType="java.util.HashMap" parameterType="java.lang.String">
+        select id,review_status from cm_merchant cm where cm.id = ${id}
+    </select>
+
+    <update id="validateMerchant" parameterType="java.lang.String">
+        update cm_merchant cm set cm.review_status='accept' where cm.id = ${id}
+    </update>
+
+    <update id="unvalidateMerchant" parameterType="java.lang.String">
+        update cm_merchant cm set cm.review_status='init' where cm.id = ${id}
+    </update>
+
+</mapper>

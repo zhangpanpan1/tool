@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class CustMobileCodeDao extends AbstractDao {
 
-	public List<Map<String,Object>> loadMessageValidateCode(String rownum){
+	public List<Map<String,Object>> loadMessageValidateCode(String rownum) {
 		
 		return getJdbcTemplate().queryForList("select * "
 				+ "from (select mcmic.merchant_no merchantNo,"

@@ -1,6 +1,6 @@
 /**
  * Project Name:webtool
- * File Name:BankCardDao.java
+ * File Name:BankCardMapper.java
  * Package Name:org.cnepay.mobilepay.tool.dao.table
  * Date:2015年7月29日下午6:40:10
  * Copyright (c) 2015, wukm@cnepay.com.cn All Rights Reserved.
@@ -15,7 +15,7 @@ import org.cnepay.mobilepay.tool.dao.AbstractDao;
 import org.springframework.stereotype.Component;
 
 /**
- * ClassName:BankCardDao <br/>
+ * ClassName:BankCardMapper <br/>
  * Function: TODO ADD FUNCTION. <br/>
  * Reason:	 TODO ADD REASON. <br/>
  * Date:     2015年7月29日 下午6:40:10 <br/>
@@ -26,6 +26,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class BankCardDao extends AbstractDao {
+
 
 	public  List<Map<String,Object>> findBankCardInfo(String cardno){
 		//查询卡号信息

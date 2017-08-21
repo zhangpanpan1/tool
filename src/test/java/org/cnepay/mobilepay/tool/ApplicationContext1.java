@@ -18,10 +18,6 @@ public class ApplicationContext1 implements ApplicationContextAware{
 		
 	}
 
-//	public org.springframework.context.ApplicationContext getApplicationContext() {
-//		return applicationContext;
-//	}
-
 	public static org.springframework.context.ApplicationContext getApplicationContext(){
 		
 		return ApplicationContext1.applicationContext;

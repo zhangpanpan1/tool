@@ -6,29 +6,23 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.cnepay.mobilepay.tool.dao.mapper.CustMobileCodeMapper;
 import org.cnepay.mobilepay.tool.dao.table.CustMobileCodeDao;
 import org.cnepay.mobilepay.tool.views.CustMobileCodeEntity;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class CustMobileCodeService extends AbstractService{
-	
-	
-	private CustMobileCodeDao custMobileCodeDao = null;
-	
-	public CustMobileCodeDao getCustMobileCodeDao() {
-		return custMobileCodeDao;
-	}
 
-	@Resource
-	public void setCustMobileCodeDao(CustMobileCodeDao custMobileCodeDao) {
-		this.custMobileCodeDao = custMobileCodeDao;
-	}
+	@Autowired
+	private CustMobileCodeMapper custMobileCodeMapper;
+
 
 	public List<CustMobileCodeEntity> loadMessageValidateCode(String rownum){
 		List<CustMobileCodeEntity> messageValidates = new ArrayList<CustMobileCodeEntity>();
 		
-		List<Map<String,Object>> messages = this.custMobileCodeDao.loadMessageValidateCode(rownum);
+		List<Map<String,Object>> messages = custMobileCodeMapper.loadMessageValidateCode(rownum);
 		if(messages != null && messages.size() > 0){
 			for(Map<String,Object> item:messages){
 				CustMobileCodeEntity entity = new CustMobileCodeEntity();
@@ -43,7 +37,7 @@ public class CustMobileCodeService extends AbstractService{
 	
 	public List<String> getSerialCode(String rownum){
 	    List<String> list =new ArrayList<String>();
-		List<Map<String,Object>> messages = this.custMobileCodeDao.getSerialCode(rownum);
+		List<Map<String,Object>> messages = custMobileCodeMapper.getSerialCode(rownum);
 		if(messages != null && messages.size() > 0){
 			for(Map<String,Object> item:messages){
 			 list.add((String) item.get("CODE"));

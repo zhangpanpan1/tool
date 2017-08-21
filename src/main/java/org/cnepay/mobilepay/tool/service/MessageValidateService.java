@@ -16,29 +16,22 @@ import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.httpclient.NameValuePair;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.lang3.math.NumberUtils;
+import org.cnepay.mobilepay.tool.dao.mapper.MessageValidateMapper;
 import org.cnepay.mobilepay.tool.dao.table.MessageValidateDao;
 import org.cnepay.mobilepay.tool.util.CalendarUtil;
 import org.cnepay.mobilepay.tool.views.MessageValidateInfoEntity;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class MessageValidateService extends AbstractService{
-	
-	
-	private MessageValidateDao messageValidateDao = null;
-	
-	public MessageValidateDao getMessageValidateDao() {
-		return messageValidateDao;
-	}
 
-	@Resource
-	public void setMessageValidateDao(MessageValidateDao messageValidateDao) {
-		this.messageValidateDao = messageValidateDao;
-	}
+	@Autowired
+	private MessageValidateMapper messageValidateMapper;
 
 	public List<MessageValidateInfoEntity> loadMessageValidateCode(String rownum){
 		List<MessageValidateInfoEntity> messageValidates = new ArrayList<MessageValidateInfoEntity>();
-		List<Map<String,Object>> messages = this.messageValidateDao.loadMessageValidateCode(rownum);
+		List<Map<String,Object>> messages = messageValidateMapper.loadMessageValidateCode(rownum);
 		if(messages != null && messages.size() > 0){
 			for(Map<String,Object> item:messages){
 				MessageValidateInfoEntity entity = new MessageValidateInfoEntity();

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.cnepay.mobilepay.tool.dao.mapper.McrKsnMapper">
+
+    <select id="loadKsn" resultType="java.util.HashMap">
+        SELECT * FROM MCR_KSN
+    </select>
+
+    <select id="findByKsnNo" resultType="int" parameterType="java.lang.String">
+        select count(*) num from key_store ks where ks.key_alias like '%${ksnNo}%'
+    </select>
+
+    <update id="updateByKsnNo" parameterType="java.lang.String">
+        update key_store ks
+        set ks.key_value='4B608D3C6280D5B64B608D3C6280D5B6', ks.check_value='0F2FCF4A'
+        where ks.key_alias
+        like '%${ksnNo}%'
+    </update>
+
+    <update id="updateICKeyForDownload" parameterType="java.lang.String">
+        update merchant_terminal mt
+        set mt.ic_status='11'
+        where mt.id
+        in (select mk.terminal_id from mcr_ksn mk where mk.ksn_no='${ksnNo}')
+    </update>
+
+    <select id="findByKsn" resultType="java.util.HashMap" parameterType="java.lang.String">
+        select mk.ksn_no ksnNo, mk.is_activated isActivated, mk.is_used isUsed
+        from mcr_ksn mk
+        where mk.ksn_no like '%${ksnNo}%'
+    </select>
+
+    <update id="updateMcrKsnByKsnNo" parameterType="java.lang.String">
+        update mcr_ksn k
+        set k.is_activated=0, k.is_used=0, k.terminal_id='', k.mac_address=null
+        where k.ksn_no = '${ksnNo}'
+    </update>
+
+    <update id="updateMcrSerialNoByKsnNo" parameterType="java.lang.String">
+        update mcr_serial_number s
+        set s.is_used = 0,s.ksn_id=null,s.terminal_id=null
+        where s.ksn_id = (select k.id from mcr_ksn k where k.ksn_no = '${ksnNo}')
+    </update>
+
+    <select id="findMobileCount" parameterType="java.lang.String">
+        select count(*) count from ws_identify_code wic where wic.mobile_no = '${mobileNo}'
+    </select>
+
+    <delete id="deleteMobileMessage" parameterType="java.lang.String">
+        delete from ws_identify_code wic where wic.mobile_no = '${mobileNo}'
+    </delete>
+
+    <delete id="deleteKsnMessage" parameterType="java.lang.String">
+        delete from ws_identify_code wic where wic.ksn_no='${ksnNo}'
+    </delete>
+
+    <delete id="deleteIdentifyCodeByMobileNo" parameterType="java.lang.String">
+        delete from ws_identify_code wic where wic.mobile_no='${mobileNo}'
+    </delete>
+
+    <delete id="deletePersonalByMobileNo" parameterType="java.lang.String">
+        delete from cm_personal cp where cp.mobile_no='${mobileNo}'
+    </delete>
+
+    <delete id="deleteMerchantByMobileNo" parameterType="java.lang.String">
+        delete from merchant_operator mo where mo.login_name like '%${mobileNo}'
+    </delete>
+
+</mapper>
