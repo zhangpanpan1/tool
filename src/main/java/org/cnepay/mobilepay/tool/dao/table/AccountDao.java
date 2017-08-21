@@ -48,8 +48,8 @@ public class AccountDao extends AbstractDao {
 		}
 		return result.booleanValue();
 	}
-	
-	
+
+
 	private class TransactionCallbackAccountImpl implements TransactionCallback<Boolean>{
 		
 		private String accountNo = null;

@@ -6,29 +6,22 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.cnepay.mobilepay.tool.dao.mapper.McrKsnMapper;
 import org.cnepay.mobilepay.tool.dao.table.McrKsnDao;
 import org.cnepay.mobilepay.tool.views.KsnEntity;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class KsnManageService extends AbstractService{
-	
-	private McrKsnDao mcrKsnDao = null;
-	
-	public McrKsnDao getMcrKsnDao() {
-		return mcrKsnDao;
-	}
 
-	@Resource
-	public void setMcrKsnDao(McrKsnDao mcrKsnDao) {
-		this.mcrKsnDao = mcrKsnDao;
-	}
-
-
+	@Autowired
+	private McrKsnMapper mcrKsnMapper;
 
 	public List<KsnEntity> loadKsnByKsnNo(String ksnNo){
 		List<KsnEntity> ksns = new ArrayList<KsnEntity>();
-		List<Map<String,Object>> ksnDaos = mcrKsnDao.findByKsn(ksnNo);
+		List<Map<String,Object>> ksnDaos = mcrKsnMapper.findByKsn(ksnNo);
 		if(ksnDaos != null && ksnDaos.size() > 0){
 			for(Map<String,Object> item:ksnDaos){
 				KsnEntity entity = new KsnEntity();
@@ -41,30 +34,39 @@ public class KsnManageService extends AbstractService{
 	}
 	
 	public int getMobileNoCount(String mobileNo){
-		return mcrKsnDao.findMobileCount(mobileNo);
+		return mcrKsnMapper.findMobileCount(mobileNo);
 	}
 	
 	public int deleteMobileMessage(String mobileNo){
-		return mcrKsnDao.deleteMobileMessage(mobileNo);
+		return mcrKsnMapper.deleteMobileMessage(mobileNo);
 	}
-	
+
+	@Transactional
 	public Boolean unbundKsn(String ksnNo){
-		return this.mcrKsnDao.unbundKsn(ksnNo);
+		mcrKsnMapper.updateMcrKsnByKsnNo(ksnNo);
+		mcrKsnMapper.updateMcrSerialNoByKsnNo(ksnNo);
+		return true;
 	}
 	
 	public int resetKsnTmk(String ksnNo){
-		return this.mcrKsnDao.resetKsnTmk(ksnNo);
+		mcrKsnMapper.findByKsnNo(ksnNo);
+		mcrKsnMapper.updateByKsnNo(ksnNo);
+		return 1;
 	}
 	
 	public int clearKsnMessage(String ksnNo){
-		return this.mcrKsnDao.deleteKsnMessage(ksnNo);
+		return this.mcrKsnMapper.deleteKsnMessage(ksnNo);
 	}
 	
 	public int sendIcKey(String ksnNo){
-		return this.mcrKsnDao.updateICKeyForDownload(ksnNo);
+		return this.mcrKsnMapper.updateICKeyForDownload(ksnNo);
 	}
-	
+
+	@Transactional
 	public Boolean unbundMobileNo(String mobileNo){
-		return this.mcrKsnDao.unbundMobileNo(mobileNo);
+		mcrKsnMapper.deleteIdentifyCodeByMobileNo(mobileNo);
+		mcrKsnMapper.deletePersonalByMobileNo(mobileNo);
+		mcrKsnMapper.deleteMerchantByMobileNo(mobileNo);
+		return true;
 	}
 }

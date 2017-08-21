@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.cnepay.mobilepay.tool.dao.mapper.CustMobileCodeMapper">
+
+    <select id="loadMessageValidateCode" parameterType="java.lang.String" resultType="java.util.HashMap">
+        select * from (select mcmic.merchant_no merchantNo,
+                       mcmic.customer_name customerName,
+                       mcmic.id_number idNumber,
+                       mcmic.mobile mobile,
+                       mcmic.id_code idCode,
+                       mcmic.bank_no bankNo,
+                       mcmic.validate_count validateCount
+                       from mp_cust_mobile_identify_code mcmic
+                       order by mcmic.date_created desc)
+         where rownum &lt;= '${rownum}'
+    </select>
+
+    <select id="getSerialCode" parameterType="java.lang.String" resultType="java.util.HashMap">
+        select msn.code code from mcr_serial_number msn where msn.is_used = 0 and msn.is_cancell = 0 and msn.agency_id = '503' and rownum &lt;= ${rownum}
+    </select>
+
+
+
+</mapper>

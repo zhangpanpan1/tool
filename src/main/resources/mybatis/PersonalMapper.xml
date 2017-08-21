@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.cnepay.mobilepay.tool.dao.mapper.PersonalMapper">
+
+    <select id="findPersonalByMobile" resultType="java.util.HashMap" parameterType="java.lang.String">
+        select id, mobile_no, is_certification, is_signature
+        from cm_personal cp
+        where cp.mobile_no like '%${mobile}%'
+    </select>
+
+
+    <update id="validatePersonal" parameterType="java.lang.String">
+        update cm_personal cp
+        set cp.is_certification='1', cp.is_signature='1'
+        where cp.id='${id}'
+    </update>
+
+    <update id="unvalidatePersonal" parameterType="java.lang.String">
+        update cm_personal cp
+        set cp.is_certification='0', cp.is_signature='0'
+        where cp.id='${id}'
+    </update>
+
+
+</mapper>

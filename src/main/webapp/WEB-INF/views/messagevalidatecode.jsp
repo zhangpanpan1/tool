@@ -17,9 +17,7 @@
 <link rel="Bookmark" href="images/tool.ico" type="image/x-icon" />
 <link rel="shortcut icon" href="images/tool.ico" type="image/x-icon" />
 <script type="text/javascript">
-
 	var timer = null;
-
 	function delaySubmitForm(){
 		var checkbox = document.getElementById("checkbox");
 		if(checkbox.checked) {
@@ -28,11 +26,7 @@
 		} else {
 			clearTimeout(timer);
 		}
-		
-		//document.getElementById("rownum").focus();
 	}
-
-
 </script>
 
 <title>获取短信验证码</title>
@@ -51,9 +45,9 @@
 		</c:if>
 		<tr style="text-align: center; COLOR: #0076C8; BACKGROUND-COLOR: #F4FAFF; font-weight: bold">
 			<td colspan="5">
-				<form action="${action }" method="post">
-					<c:out value="是否自动刷新(10秒)"></c:out><input id="checkbox" name="checkbox" type="checkbox" value="checkbox" <c:out value="${checkbox }"></c:out> onchange="javaScript:delaySubmitForm();"/>
-					<c:out value="点击'查询'可直接刷新"></c:out><input type="submit" name="查询" value="查询" />
+				<form action="${action}" method="post">
+					<c:out value="  是否自动刷新(10秒)"></c:out><input id="checkbox" name="checkbox" type="checkbox" value="checkbox" <c:out value="${checkbox }"></c:out> onchange="javaScript:delaySubmitForm();"/>
+					<c:out value="  点击'查询'可直接刷新"></c:out><input type="submit" name="查询" value="查询" />
 					<c:out value="  当前显示条数:"></c:out><input type="text" id="rownum" name="rownum" value="${rownum }" />
 				</form>
 			</td>

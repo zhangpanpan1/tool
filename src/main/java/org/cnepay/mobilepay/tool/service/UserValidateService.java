@@ -14,6 +14,9 @@ import java.util.Map;
 
 import net.sf.json.JSONArray;
 
+import org.cnepay.mobilepay.tool.dao.mapper.AccountMapper;
+import org.cnepay.mobilepay.tool.dao.mapper.MerchantMapper;
+import org.cnepay.mobilepay.tool.dao.mapper.PersonalMapper;
 import org.cnepay.mobilepay.tool.dao.table.AccountDao;
 import org.cnepay.mobilepay.tool.dao.table.MerchantDao;
 import org.cnepay.mobilepay.tool.dao.table.PersonalDao;
@@ -35,34 +38,31 @@ import org.springframework.stereotype.Service;
 public class UserValidateService extends AbstractService {
 
 	@Autowired
-	private PersonalDao personal;
+	private PersonalMapper personalMapper;
 	
 	@Autowired
-	private MerchantDao merchant;
+	private MerchantMapper merchantMapper;
 	
 	@Autowired
-	private AccountDao account;
-	
-	
-	public List<ValidateMerchantEntity> findMerchantInfo(String mobile){
-		
-		List<Map<String,Object>> persons = personal.findPersonalByMobile(mobile);
+	private AccountMapper accountMapper;
+
+	public List<ValidateMerchantEntity> findMerchantInfo(String mobile) {
+		List<Map<String,Object>> persons = personalMapper.findPersonalByMobile(mobile);
 		logger.info("find:" + JSONArray.fromObject(persons).toString(4));
 		List<ValidateMerchantEntity> results = new ArrayList<ValidateMerchantEntity>();
 		
 		for(Map<String,Object> map:persons){
 			ValidateMerchantEntity temp = new ValidateMerchantEntity();
-			temp.setMobile(map.get("mobile_no").toString());
-			temp.setIdCard(map.get("is_certification").toString());
-			temp.setSignature(map.get("is_signature").toString());
-			List<Map<String,Object>> merchants = merchant.findMerchantById(map.get("id").toString());
+			temp.setMobile(map.get("MOBILE_NO").toString());
+			temp.setIdCard(map.get("IS_CERTIFICATION").toString());
+			temp.setSignature(map.get("IS_SIGNATURE").toString());
+			List<Map<String,Object>> merchants = merchantMapper.findMerchantById(map.get("ID").toString());
 			if(merchants.size() > 0){
-				temp.setMerchant(merchants.get(0).get("review_status").toString());
+				temp.setMerchant(merchants.get(0).get("REVIEW_STATUS").toString());
 			}
-			
-			List<Map<String,Object>> accounts = account.findAccountByMerchant(merchants.get(0).get("id").toString());
+			List<Map<String,Object>> accounts = accountMapper.findAccountByMerchant(merchants.get(0).get("ID").toString());
 			if(accounts.size() > 0){
-				temp.setAccount(accounts.get(0).get("isVerified").toString());
+				temp.setAccount(accounts.get(0).get("ISVERIFIED").toString());
 			}
 			results.add(temp);
 		}
@@ -70,38 +70,31 @@ public class UserValidateService extends AbstractService {
 		return results;
 	}
 	
-	
-	public boolean passAll(String mobile){
-		
-		List<Map<String,Object>> persons = personal.findPersonalByMobile(mobile);
+	public boolean passAll(String mobile) {
+		List<Map<String,Object>> persons = personalMapper.findPersonalByMobile(mobile);
 		logger.info("find:" + JSONArray.fromObject(persons).toString(4));
-		
 		for(Map<String,Object> map:persons){
-			personal.validatePersonal(map.get("id").toString());
-			merchant.validateMerchant(map.get("id").toString());
-			
-			
-			List<Map<String,Object>> accounts = account.findAccountByMerchant(map.get("id").toString());
-			if(accounts.size() > 0)
-				account.validateMerchant(accounts.get(0).get("id").toString());
+			personalMapper.validatePersonal(map.get("ID").toString());
+			merchantMapper.validateMerchant(map.get("ID").toString());
+			List<Map<String,Object>> accounts = accountMapper.findAccountByMerchant(map.get("ID").toString());
+			if(accounts.size() > 0) {
+				accountMapper.validateMerchant(accounts.get(0).get("ID").toString());
+			}
 		}
 		return true;
 	}
-	
-	
+
 	public boolean unpassAll(String mobile){
 		
-		List<Map<String,Object>> persons = personal.findPersonalByMobile(mobile);
+		List<Map<String,Object>> persons = personalMapper.findPersonalByMobile(mobile);
 		logger.info("find:" + JSONArray.fromObject(persons).toString(4));
-		
 		for(Map<String,Object> map:persons){
-			personal.unvalidatePersonal(map.get("id").toString());
-			merchant.unvalidateMerchant(map.get("id").toString());
-			
-			
-			List<Map<String,Object>> accounts = account.findAccountByMerchant(map.get("id").toString());
-			if(accounts.size() > 0)
-				account.unvalidateMerchant(accounts.get(0).get("id").toString());
+			personalMapper.unvalidatePersonal(map.get("ID").toString());
+			merchantMapper.unvalidateMerchant(map.get("ID").toString());
+			List<Map<String,Object>> accounts = accountMapper.findAccountByMerchant(map.get("ID").toString());
+			if(accounts.size() > 0) {
+				accountMapper.unvalidateMerchant(accounts.get(0).get("ID").toString());
+			}
 		}
 		return true;
 	}

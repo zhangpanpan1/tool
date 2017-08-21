@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.cnepay.mobilepay.tool.dao.mapper.MessageValidateMapper">
+
+    <select id="loadMessageValidateCode" resultType="java.util.HashMap" parameterType="java.lang.String">
+        select * from
+              (select wic.mobile_no mobileNo,wic.id_code validateCode,wic.date_created updateTime,wic.ksn_no ksnNo,wic.validate_status validateStatus,wic.get_count getCount,wic.validate_count validateCount,wic.status status
+               from ws_identify_code wic
+               order by wic.date_created desc)
+        where rownum &lt;= rownum
+    </select>
+
+
+</mapper>

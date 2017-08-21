@@ -6,28 +6,22 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.cnepay.mobilepay.tool.dao.mapper.AccountMapper;
 import org.cnepay.mobilepay.tool.dao.table.AccountDao;
 import org.cnepay.mobilepay.tool.views.AccountEntity;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class AccountManageService extends AbstractService{
-	
-	
-	private AccountDao accountDao = null;
-	
-	public AccountDao getAccountDao() {
-		return accountDao;
-	}
 
-	@Resource
-	public void setAccountDao(AccountDao accountDao) {
-		this.accountDao = accountDao;
-	}
+	@Autowired
+	private AccountMapper accountMapper;
 
 	public List<AccountEntity> loadAccountNo(String accountNo){
 		List<AccountEntity> accounts = new ArrayList<AccountEntity>();
-		List<Map<String,Object>> accountDaos = accountDao.loadAccount(accountNo);
+		List<Map<String,Object>> accountDaos = accountMapper.loadAccount(accountNo);
 		if(accountDaos != null && accountDaos.size() > 0){
 			for(Map<String,Object> item:accountDaos){
 				AccountEntity entity = new AccountEntity();
@@ -40,15 +34,19 @@ public class AccountManageService extends AbstractService{
 	}
 	
 	public int unbundAccountCount(String accountNo){
-		return this.accountDao.unbundAccountCount(accountNo);
+		return accountMapper.unbundAccountCount(accountNo);
 	}
 	
 	public boolean existBankCard(String accountNo){
-		return this.accountDao.existBankCard(accountNo);
+		int result = accountMapper.existBankCard(accountNo, String.valueOf(accountNo.length()));
+		return (result==1)?true:false;
 	}
-	
+
+	@Transactional
 	public boolean unbundAccountNo(String accountNo){
-		return this.accountDao.unbundAccount(accountNo);
+		accountMapper.deleteMerchantBankAccountByAccountNo(accountNo);
+		accountMapper.deleteBankAccountByAccountNo(accountNo);
+		return true;
 	}
 
 }

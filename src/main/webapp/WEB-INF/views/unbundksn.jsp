@@ -27,18 +27,17 @@
 </head>
 <body>
 	<table id="main" border="0" cellpadding="3" cellspacing="1" width="100%" align="center" style="background-color: #b9d8f3;">
-		<tr style="text-align: left; COLOR: #0076C8; BACKGROUND-COLOR: #F4FAFF; font-weight: bold">
-			<td colspan="4">
-				<form id="more" name="more" action="app/map.action" method="post">
-				<select name="mapItem" onchange="javascript:submitForm('more')">
-					<option selected="selected" value="">更多...</option>
-					<option value="messageValidateCode">获取短信验证码</option>
-					<option value="messageFactValidateCode">获取生产环境短信验证码</option>
-			 
-				</select>
-				</form>
-			</td>
-		</tr>
+		<%--<tr style="text-align: left; COLOR: #0076C8; BACKGROUND-COLOR: #F4FAFF; font-weight: bold">--%>
+			<%--<td colspan="4">--%>
+				<%--<form id="more" name="more" action="app/map.action" method="post">--%>
+				<%--<select name="mapItem" onchange="javascript:submitForm('more')">--%>
+					<%--<option selected="selected" value="">更多...</option>--%>
+					<%--<option value="messageValidateCode">获取短信验证码</option>--%>
+					<%--<option value="messageFactValidateCode">获取生产环境短信验证码</option>--%>
+				<%--</select>--%>
+				<%--</form>--%>
+			<%--</td>--%>
+		<%--</tr>--%>
 		<tr style="text-align: left; COLOR: #0076C8; BACKGROUND-COLOR: #F4FAFF; font-weight: bold">
 			<td colspan="4">
 				<table id="main" border="0" cellpadding="3" cellspacing="1" width="100%" align="center" style="background-color: #b9d8f3;">
@@ -46,8 +45,7 @@
 					<td>
 						<a href="<%=basePath%>validate/index.action" target="_blank">商户四审</a>
 					</td>
-					<td> 
-					
+					<td>
 						<a href="<%=basePath%>bankcard/index.action" target="_blank">银行卡信息查询</a>
 					</td>
 				</tr>
@@ -57,6 +55,14 @@
 					</td>
 					<td>
 						<a href="<%=basePath%>cust/getSerialCode.action" target="_blank">设备激活码</a>
+					</td>
+				</tr>
+				<tr style="text-align: center; COLOR: #0076C8; BACKGROUND-COLOR: #F4FAFF; font-weight: bold">
+					<td>
+						<a href="<%=basePath%>app/index.action?type=1" target="_blank">获取短信验证码</a>
+					</td>
+					<td>
+						<a href="<%=basePath%>app/index.action?type=2" target="_blank">获取生产环境短信验证码</a>
 					</td>
 				</tr>
 				</table>

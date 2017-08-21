@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.cnepay.mobilepay.tool.dao.mapper.AccountMapper">
+
+    <select id="loadAccount" resultType="java.util.HashMap">
+      select ba.account_no accountNo,
+             ba.account_name accountName,
+             ba.issuer_bank_name bankName,
+             ba.is_verified isVerified
+      from bank_account ba
+      where ba.account_no  like '%${accountNo}%'
+    </select>
+
+    <select id="findAccountByMerchant" resultType="java.util.HashMap">
+        select ba.id id,
+               ba.account_no accountNo,
+               ba.account_name accountName,
+               ba.issuer_bank_name bankName,
+               ba.is_verified isVerified
+        from bank_account ba left join merchant_bank_account mba on ba.id=mba.bank_account_id
+        where mba.merchant_id = ${merchantId}
+    </select>
+
+    <select id="existBankCard" resultType="int">
+        select count(*) num from dict_cardbin dc
+        where substr('${backId}', 0, dc.cardbin_length) = dc.cardbin_code and dc.card_no_length = ${backId}
+    </select>
+
+    <update id="validateMerchant">
+        update bank_account ba set ba.is_verified='1'
+        where ba.id = ${id}
+    </update>
+
+    <update id="unvalidateMerchant">
+        update bank_account ba set ba.is_verified='0'
+        where ba.id = ${id}
+    </update>
+
+    <select id="unbundAccountCount" resultType="int">
+        select count(*) num from bank_account ba
+         where ba.account_no = ''${accountNo}''
+    </select>
+
+    <delete id="deleteMerchantBankAccountByAccountNo">
+        delete from merchant_bank_account mba
+        where mba.bank_account_id in (select id from bank_account ba where ba.account_no='${accountNo}')
+    </delete>
+
+    <delete id="deleteBankAccountByAccountNo">
+        delete from bank_account ba where ba.account_no= '${accountNo}'
+    </delete>
+
+</mapper>
