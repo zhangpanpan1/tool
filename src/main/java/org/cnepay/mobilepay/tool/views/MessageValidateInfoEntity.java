@@ -1,6 +1,7 @@
 package org.cnepay.mobilepay.tool.views;
 
-import java.sql.Timestamp;
+ 
+import oracle.sql.TIMESTAMP;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
@@ -23,7 +24,7 @@ public class MessageValidateInfoEntity extends AbstractEntity{
 	
 	private String validateCode = null;
 	
-	private Timestamp updateTime = null;
+	private TIMESTAMP updateTime = null;
 	
 	private String ksnNo = null;
 	
@@ -53,7 +54,7 @@ public class MessageValidateInfoEntity extends AbstractEntity{
 		this.validateCode = validateCode;
 	}
 
-	public String getLastTime() {
+/*	public String getLastTime() {
 		if(this.updateTime == null){
 			this.lastTime = "--";
 		} else {
@@ -62,12 +63,12 @@ public class MessageValidateInfoEntity extends AbstractEntity{
 		}
 		return this.lastTime;
 	}
-	
-	public Timestamp getUpdateTime() {
+	*/
+	public TIMESTAMP getUpdateTime() {
 		return this.updateTime;
 	}
 
-	public void setUpdateTime(Timestamp updateTime) {
+	public void setUpdateTime(TIMESTAMP updateTime) {
 		this.updateTime = updateTime;
 	}
 

@@ -13,11 +13,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.cnepay.mobilepay.tool.dao.mapper.BankCardMapper;
-import org.cnepay.mobilepay.tool.dao.table.BankCardDao;
 import org.cnepay.mobilepay.tool.views.BandCardEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import sun.security.util.Length;
 
 /**
  * ClassName:BankCardService <br/>
@@ -37,7 +35,7 @@ public class BankCardService extends AbstractService {
 	private BankCardMapper bankCardMapper;
 
 	
-	public List<BandCardEntity> findBankCardInfo(String cardno){
+	public List<BandCardEntity> findBankCardInfoByCardNo(String cardno){
 		List<Map<String,Object>> bankCards = bankCardMapper.findBankCardInfo(cardno, ""+cardno.length());
 		
 		List<BandCardEntity> bankCard = new ArrayList<BandCardEntity>();

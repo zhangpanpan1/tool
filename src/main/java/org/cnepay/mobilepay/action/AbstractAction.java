@@ -1,4 +1,4 @@
-package org.cnepay.mobilepay.tool.action;
+package org.cnepay.mobilepay.action;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;

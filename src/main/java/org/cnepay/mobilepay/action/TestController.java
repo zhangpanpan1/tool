@@ -1,4 +1,4 @@
-package org.cnepay.mobilepay.tool.action;
+package org.cnepay.mobilepay.action;
 
 import org.cnepay.mobilepay.tool.service.TestService;
 import org.springframework.beans.factory.annotation.Autowired;

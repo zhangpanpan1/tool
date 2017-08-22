@@ -3,6 +3,13 @@
 
 <mapper namespace="org.cnepay.mobilepay.tool.dao.mapper.BankCardMapper">
 
+ <resultMap id="BaseResultMap" type="org.cnepay.mobilepay.tool.views.BandCardEntity" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+     
+  </resultMap>
+
+
+
     <select id="findBankCardInfo" parameterType="java.lang.String" resultType="java.util.HashMap">
         select * from dict_cardbin dc
         where dc.CARDBIN_CODE=substr('${cardno}', 1, dc.CARDBIN_LENGTH)

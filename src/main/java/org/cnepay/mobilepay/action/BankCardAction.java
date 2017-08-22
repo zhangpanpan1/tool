@@ -6,7 +6,7 @@
  * Copyright (c) 2015, wukm@cnepay.com.cn All Rights Reserved.
  **/
 
-package org.cnepay.mobilepay.tool.action;
+package org.cnepay.mobilepay.action;
 
 import java.util.List;
 
@@ -50,7 +50,7 @@ public class BankCardAction extends AbstractAction {
 		logger.info("接收到的卡号：" + cardno);
 		ModelAndView view = new ModelAndView("bankcard");
 		view.addObject("cardno", cardno);
-		List<BandCardEntity> data = bankCardService.findBankCardInfo(cardno);
+		List<BandCardEntity> data = bankCardService.findBankCardInfoByCardNo(cardno);
 		view.addObject("bankCards", data);
 		view.addObject("message", "查询成功:" + data.size() + "条");
 		return view;

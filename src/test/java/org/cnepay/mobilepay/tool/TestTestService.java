@@ -10,7 +10,7 @@ import java.util.Map;
 /**
  * Created by BlackAnt on 17/8/21.
  */
-public class TestTestService extends TestBase {
+public class TestTestService  {
     @Autowired
     private TestService testService;
 

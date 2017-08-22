@@ -6,7 +6,7 @@
  * Copyright (c) 2015, wukm@cnepay.com.cn All Rights Reserved.
  **/
 
-package org.cnepay.mobilepay.tool.action;
+package org.cnepay.mobilepay.action;
 
 import java.util.List;
 

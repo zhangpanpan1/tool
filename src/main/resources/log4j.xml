@@ -25,7 +25,7 @@
     -->
   <appender name="file" class="org.apache.log4j.FileAppender">
     	<!-- <param name="File"   value="${CATALINA_HOME}/tool.log" /> -->
-     	<param name="File"   value="${LOG4j_PATH}/tool.log" />
+     	<param name="File"   value="D://tool.log" />
     	<param name="Append" value="false" />
     	<layout class="org.apache.log4j.PatternLayout">
       		<param name="ConversionPattern" value="wkm-cnepay-%d %-5p %t %c - %m%n"/>
